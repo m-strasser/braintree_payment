@@ -211,3 +211,34 @@ function _braintree_payment_controlled_payment_method(\PaymentMethod $method) {
   $info = braintree_payment_payment_method_controller_info();
   return isset($info[$method->controller->name]);
 }
+
+/**
+ * Implements hook_d7csp_hosts().
+ */
+function braintree_payment_d7csp_hosts() {
+  // Basic directives.
+  $hosts['script-src'][] = 'js.braintreegateway.com';
+  $hosts['script-src'][] = 'assets.braintreegateway.com';
+  $hosts['img-src'][] = 'assets.braintreegateway.com';
+  $hosts['img-src'][] = 'data:';
+  $hosts['child-src'][] = 'assets.braintreegateway.com';
+  $hosts['frame-src'][] = 'assets.braintreegateway.com';
+  $hosts['connect-src'][] = 'api.braintreegateway.com';
+  $hosts['connect-src'][] = 'api.sandbox.braintreegateway.com';
+  $hosts['connect-src'][] = 'client-analytics.braintreegateway.com';
+  $hosts['connect-src'][] = '*.braintree-api.com';
+
+  // Needed for 3D Secure (braintree.threeDSecure).
+  $hosts['script-src'][] = 'songbirdstag.cardinalcommerce.com';
+  $hosts['script-src'][] = 'https://includestest.ccdc02.com';
+  $hosts['frame-src'][] = '*';
+  $hosts['connect-src'][] = '*.cardinalcommerce.com';
+  $hosts['form-action'][] = '*';
+
+  // Needed for Google Pay.
+  $hosts['script-src'][] = 'pay.google.com';
+  $hosts['connect-src'][] = 'pay.google.com';
+  $hosts['connect-src'][] = 'https://google.com/pay';
+
+  return $hosts;
+}
